@@ -1,3 +1,7 @@
+alias tabname=fc_setTabName $1
+fc_setTabName(){
+            echo -en "\033]0;$1\a"
+}
 function fc_get_last_tag(){
   LIMIT=$2
   if [[ -z "$LIMIT" ]]
@@ -65,25 +69,33 @@ function fc_program_is_runnig(){
   fi
 }
 
-function fc_add_wow(){
-  echo "alias $1='wow'" >> ~/.bash_wow_aliases
-  source ~/.bash_wow_aliases
+function fc_up_vm2020(){
+    echo "cd ~/workspace/valebroker-vm2020-asset  && npm run $1"
+    cd ~/workspace/valebroker-vm2020-asset && npm run $1
 }
 
-function fc_up_sapo(){
-  SAPO_UP=$(fc_program_is_runnig sapo)
-  if [ "$SAPO_UP" -eq 0 ]; then
-    echo "cd ~/workspace && /home/$USER/.bin/sapo2 up asset --no-wait"
-    cd ~/workspace && /home/$USER/.bin/sapo2 up asset --no-wait
+function fc_up_portal(){
+  VM2020_UP=$(fc_program_is_runnig asset-portal)
+  if [ "$VM2020_UP" -eq 0 ]; then
+    echo "cd ~/workspace/asset-portal && npm run $1"
+    cd ~/workspace/asset-portal && npm run $1
   fi
 }
 
-alias vm2020='cd ~/workspace/vm2020-front-html/'
-alias vm202=vm2020
-alias vm20=vm2020
+function fc_up_pato(){
+    echo "cd ~/workspace/homebroker-ws-asset && docker-compose up"
+    cd ~/workspace/homebroker-ws-asset && docker-compose up
+}
+
+alias uppato='fc_up_pato'
+alias upvm="fc_up_vm2020"
+alias upportal="fc_up_portal"
+alias vm2020='cd ~/workspace/valebroker-vm2020-asset'
+alias ts='cd ~/workspace/valebroker-vm2020-asset'
+alias portal='cd ~/workspace/asset-portal/'
 alias vmsysadmin='cd ~/workspace/vm-sysadmin/'
-alias vmdevel='cd ~/workspace/vm-developer/'
-alias coldfusion='cd ~/workspace/valebroker-coldfusion/'
+alias coldfusion='cd ~/workspace/homebroker-ws-asset'
+alias cfc='cd ~/workspace/homebroker-ws-asset'
 alias flexextras='cd ~/workspace/valebroker-flex-extras/'
 alias flexweb='cd ~/workspace/valebroker-flex-web/'
 alias portfoliomanager='cd ~/workspace/PortfolioManager'
@@ -110,7 +122,6 @@ alias zap-monitor='cd ~/workspace/zap-monitor'
 alias zap-facebook-tab='cd ~/workspace/zap-facebook-tab'
 alias coreback='cd ~/workspace/corretora-core-back'
 alias corefront='cd ~/workspace/corretora-core-front'
-alias portal='cd ~/workspace/portal-valemobi/'
 alias psql-dev='PGAPPNAME=brubs PGPASSWORD=Vmb34ol!!23 psql -h 10.3.81.50 -p 5432 -U Valemobi -d Valemobi'
 alias query='psql-dev'
 alias queyr='query'
@@ -127,7 +138,7 @@ alias tag=fc_tag_git
 alias pulinho='git checkout'
 alias cd..='cd ..'
 alias shame='git blame'
-alias bk='cd ..'
+alias bk='  cd ..'
 alias editalias='code ~/.bash_aliases'
 alias calc='gnome-calculator'
 alias git-pronto='git pull && git push'
