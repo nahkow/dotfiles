@@ -77,7 +77,7 @@ function fc_up_vm2020(){
 function fc_up_portal(){
   VM2020_UP=$(fc_program_is_runnig asset-portal)
   if [ "$VM2020_UP" -eq 0 ]; then
-    echo "cd ~/workspace/asset-portal && npm run $1"
+    echo "cd ~/workspace/portal-carteira && npm run $1"
     cd ~/workspace/asset-portal && npm run $1
   fi
 }
@@ -87,12 +87,23 @@ function fc_up_pato(){
     cd ~/workspace/homebroker-ws-asset && docker-compose up
 }
 
+function fc_pato_up(){
+  if [ $1 = "beta" ]; then
+    echo "pato up asset-beta"
+    pato up asset-beta
+  else
+    echo "pato up asset-support-alpha"
+    pato up asset-support-alpha
+  fi
+}
+
+alias patoup='fc_pato_up'
 alias uppato='fc_up_pato'
 alias upvm="fc_up_vm2020"
 alias upportal="fc_up_portal"
 alias vm2020='cd ~/workspace/valebroker-vm2020-asset'
+alias portal='cd ~/workspace/portal-carteira'
 alias ts='cd ~/workspace/valebroker-vm2020-asset'
-alias portal='cd ~/workspace/asset-portal/'
 alias vmsysadmin='cd ~/workspace/vm-sysadmin/'
 alias coldfusion='cd ~/workspace/homebroker-ws-asset'
 alias cfc='cd ~/workspace/homebroker-ws-asset'
