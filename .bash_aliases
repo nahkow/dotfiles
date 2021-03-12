@@ -26,21 +26,40 @@ function fc_tag_git() {
 }
 
 function fc_un_tag(){
-  echo git pull
+  echo "git pull"
   git pull
-  echo git push
+  echo "git push"
   git push
+  echo "git tag -d $1"
   git tag -d $1
+  echo "git push origin :refs/tags/$1"
   git push origin :refs/tags/$1
 }
 
 function fc_re_tag(){
-  echo git pull
+  echo "git pull"
   git pull
-  echo git push
-  git push  
+  echo "git push"
+  git push
+  echo "git tag -f $1"
   git tag -f $1
+  echo "git push -f origin $1"
   git push -f origin $1
+}
+
+function fc_staging(){
+  echo "git checkout $1"
+  git checkout $1
+  echo "git pull"
+  git pull
+  echo "git branch -D $1-staging"
+  git branch -D $1-staging
+  echo "git checkout -b $1-staging"
+  git checkout -b $1-staging
+  echo "git pull origin staging"
+  git pull origin staging
+  echo "git push -u origin $1-staging --force"
+  git push -u origin $1-staging --force
 }
 
 function fc_get_present_branch() {
@@ -69,16 +88,13 @@ function fc_program_is_runnig(){
   fi
 }
 
-function fc_up_vm2020(){
-    echo "cd ~/workspace/valebroker-vm2020-asset  && npm run $1"
-    cd ~/workspace/valebroker-vm2020-asset && npm run $1
-}
-
-function fc_up_portal(){
-  VM2020_UP=$(fc_program_is_runnig asset-portal)
-  if [ "$VM2020_UP" -eq 0 ]; then
-    echo "cd ~/workspace/portal-carteira && npm run $1"
-    cd ~/workspace/asset-portal && npm run $1
+function fc_add_wow(){
+  if [[ ! -z "$1" ]]
+  then
+    echo "alias $1='wow'" >> ~/.bash_wow_aliases
+    source ~/.bash_wow_aliases
+  else
+    echo "wow vazio"
   fi
 }
 
@@ -142,6 +158,7 @@ alias editsapo='code ~/.bin/sapo2'
 
 alias wow=fc_wow
 
+alias staging=fc_staging
 alias getLastTag=fc_get_last_tag
 alias getlasttag=fc_get_last_tag
 alias updatealias='source ~/.bash_aliases'
@@ -165,10 +182,21 @@ alias achar_texto='grep -Rl $1 --color=never'
 alias achar_arquivo='find . | grep $1'
 alias workspace='cd ~/workspace'
 alias catalias='cat ~/.bash_aliases'
+alias catworkalias='cat ~/.bash_work_aliases'
 alias addwow='fc_add_wow'
 alias dotfiles='cd ~/workspace/dotfiles'
-alias runvm='vm2020 && npm run local'
-alias newvm='vm2020 && npm install:clean'
+alias gti='git'
+alias igt='git'
+alias wgit='git'
+alias wgti='git'
+alias wigt='git'
+alias please='sudo'
+alias pls='please'
+alias editworkaliases='code ~/.bash_work_aliases'
 
-. ~/.bash_wow_aliases
-. ~/.bash_work_aliases
+if [ -f ~/.bash_wow_aliases ]; then
+    . ~/.bash_wow_aliases
+fi
+if [ -f ~/.bash_work_aliases ]; then
+    . ~/.bash_work_aliases
+fi

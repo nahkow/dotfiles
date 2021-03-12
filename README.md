@@ -6,9 +6,10 @@ touch ~/.bash_work_aliases
 source ~/.bashrc
 ```
 
-#NVM
+# NVM
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+source ~/.bashrc
 nvm install v8
 nvm use v8
 source ~/.bashrc
